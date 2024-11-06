@@ -56,7 +56,7 @@ def measure(task_name: str, repo_url: str):
             start = end
     #%%
     ## Start getting commits in batch
-    params = {"sha": start, "per_page": config.PER_PAGE}
+    params = {"sha": start, "per_page": config.PER_PAGE, "until": config.COMMIT_UNTIL}
 
     # Pattern to get link for next page from the `Link` header
     next_pattern = "(?<=<)([\\S]*)(?=>; rel=\"Next\")" 
