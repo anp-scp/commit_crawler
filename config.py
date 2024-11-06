@@ -8,6 +8,7 @@ load_dotenv()
 DATA_DIR = "./temp"
 RESULT_FILE = "results.csv"
 META_FILE = "meta.txt"
+REPO_NAME = "name.txt"
 REST_API_HEADER = {
     "Authorization": f"Bearer {os.getenv('AUTH_TOKEN')}",
     "X-GitHub-Api-Version": "2022-11-28"

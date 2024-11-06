@@ -6,17 +6,18 @@ import utils
 import typer
 import config
 from classes import Commit
+from rich.table import Table
 from rich.console import Console
 app = typer.Typer()
 console = Console()
 
 
-@app.command
+@app.command()
 def remove(task_name: str):
     """To delete a task"""
     utils.clean(task_name)
 
-@app.command
+@app.command()
 def measure(task_name: str, repo_url: str):
     """To fetch and process the commits from given repository (main branch).
     Task name is to differentitae between jobs
@@ -34,6 +35,8 @@ def measure(task_name: str, repo_url: str):
         task = "resume"
     else:
         os.makedirs(task_path)
+        with open(os.path.join(task_path, config.REPO_NAME), 'w') as f:
+            f.write(f"{owner}_{repo}")
 
     # %%
     # Endpoint to fetch commits
@@ -103,6 +106,25 @@ def measure(task_name: str, repo_url: str):
                 console.print(f"Scanned {total_scanned} commits")
 
     result.close()
+
+@app.command()
+def list():
+    """List existing tasks
+    """
+    if not os.path.exists(config.DATA_DIR):
+        console.print("No tasks exist")
+        return
+    
+    table = Table(title="Task")
+    table.add_column("Sl No.:", justify="right")
+    table.add_column("Task Name")
+    table.add_column("Repo Name")
+    task_list = os.listdir(config.DATA_DIR)
+    for i, task in enumerate(task_list):
+        with open(os.path.join(config.DATA_DIR, task, config.REPO_NAME), 'r') as f:
+            repo_name = f.read()
+        table.add_row(str(i), task, repo_name.replace("_", "/"))
+    console.print(table)
 # %%
 
 if __name__ == "__main__":
