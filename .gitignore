@@ -1,0 +1,6 @@
+msenv
+temp
+notes.md
+**/__pycache__
+*.log
+.env
