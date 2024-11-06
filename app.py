@@ -56,7 +56,7 @@ def measure(task_name: str, repo_url: str):
             start = end
     #%%
     ## Start getting commits in batch
-    params = {"sha": start, "per_page": config.PER_PAGE, "until": config.COMMIT_UNTIL}
+    params = {"sha": start, "per_page": config.PER_PAGE, "since": config.COMMIT_SINCE}
 
     # Pattern to get link for next page from the `Link` header
     next_pattern = "(?<=<)([\\S]*)(?=>; rel=\"Next\")" 
@@ -84,7 +84,11 @@ def measure(task_name: str, repo_url: str):
                     continue
                 commit = utils.check_verification_status(commit)
                 end = commit.sha
-                data.append([commit.sha, commit.details.committer.date, commit.details.verification.verified, commit.details.verification.reason])
+                data.append([
+                    commit.sha, commit.details.committer.date, commit.details.author.email,
+                    commit.details.committer.email, commit.details.verification.verified,
+                    commit.details.verification.reason
+                ])
 
             # Write data to csv
             csv_writer.writerows(data)
@@ -102,7 +106,7 @@ def measure(task_name: str, repo_url: str):
             else:
                 uri = is_next.group()
             total_scanned += len(data)
-            if total_scanned % 500 == 0:
+            if total_scanned % 200 == 0:
                 console.print(f"Scanned {total_scanned} commits")
 
     result.close()

@@ -14,11 +14,11 @@ REST_API_HEADER = {
     "X-GitHub-Api-Version": "2022-11-28"
 }
 PER_PAGE = '5'
-COMMIT_UNTIL = "2021-04-28T00:00:00Z"
+COMMIT_SINCE = "2017-04-28T00:00:00Z"
 
 # CONSTANTS
 # =========
 
 COMMIT_REST_API_URI = "https://api.github.com/repos/{0}/{1}/commits"
 GRAPHQL_API_URL = "https://api.github.com/graphql"
-RESULT_HEADER = ["SHA", "DATE", "STATUS", "REASON"]
+RESULT_HEADER = ["SHA", "COMMIT_DATE", "AUTHOR", "COMMITTER", "STATUS", "REASON"]
