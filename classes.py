@@ -35,4 +35,4 @@ class Commit_Details:
 @dataclass
 class Commit:
     sha: str
-    commit_details: Commit_Details = field(metadata=config(field_name="commit"))
+    details: Commit_Details = field(metadata=config(field_name="commit"))
