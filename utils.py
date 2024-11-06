@@ -71,3 +71,12 @@ def check_verification_status(commit: Commit) -> Commit:
     commit.details.verification.verified = status
     commit.details.verification.reason = reason
     return commit
+
+def clean(task_name: str):
+    path = os.path.join(config.DATA_DIR, task_name)
+    console.print(f"Removing task: {task_name}")
+    c_p = subprocess.run(f"rm -rf {path}".split(" "))
+    if c_p.returncode != 0:
+        console.print(c_p.args)
+        console.print(f"Could not remove {task_name}")
+        raise typer.Exit(1)

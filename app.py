@@ -10,8 +10,17 @@ from rich.console import Console
 app = typer.Typer()
 console = Console()
 
+
+@app.command
+def remove(task_name: str):
+    """To delete a task"""
+    utils.clean(task_name)
+
 @app.command
 def measure(task_name: str, repo_url: str):
+    """To fetch and process the commits from given repository (main branch).
+    Task name is to differentitae between jobs
+    """
     # File paths for the task
     task_path = os.path.join(config.DATA_DIR, task_name)
     meta_path = os.path.join(task_path, config.META_FILE)
@@ -95,3 +104,6 @@ def measure(task_name: str, repo_url: str):
 
     result.close()
 # %%
+
+if __name__ == "__main__":
+    app()
