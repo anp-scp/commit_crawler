@@ -4,6 +4,7 @@ import httpx
 import typer
 import config
 import subprocess
+from classes import Commit
 from rich.console import Console
 console = Console()
 
@@ -61,3 +62,12 @@ def get_commits(uri: str, params: dict =None) -> httpx.Response:
         console.print(response.json())
         raise typer.Exit(1)
 
+def check_verification_status(commit: Commit) -> Commit:
+    author_mail = commit.details.author.email
+    committer_mail = commit.details.committer.email
+    status, reason = commit.details.verification.verified, commit.details.verification.reason
+    if status == True and author_mail != committer_mail and committer_mail != "noreply@github.com":
+        status, reason = False, "partially_verified"
+    commit.details.verification.verified = status
+    commit.details.verification.reason = reason
+    return commit
