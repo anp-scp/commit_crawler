@@ -129,6 +129,15 @@ def list():
             repo_name = f.read()
         table.add_row(str(i), task, repo_name.replace("_", "/"))
     console.print(table)
+
+@app.command(name="rlimit")
+def remaining_limit(repo_url: str):
+    """To get reamining rate limit"""
+    owner, repo = utils.get_owner_and_repo_from_url(repo_url)
+    uri = config.COMMIT_REST_API_URI.format(owner, repo)
+    params = {"per_page": 1,}
+    response = utils.get_commits(uri=uri, params=params)
+    console.print(f"Rate limit remaining: {response.headers['X-RateLimit-Remaining']}")
 # %%
 
 if __name__ == "__main__":
