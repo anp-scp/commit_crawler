@@ -107,7 +107,7 @@ def measure(task_name: str, repo_url: str):
                 uri = is_next.group()
             total_scanned += len(data)
             if total_scanned % 200 == 0:
-                console.print(f"Scanned {total_scanned} commits")
+                print(f"Scanned {total_scanned} commits")
 
     result.close()
 
@@ -123,7 +123,7 @@ def list():
     table.add_column("Sl No.:", justify="right")
     table.add_column("Task Name")
     table.add_column("Repo Name")
-    task_list = os.listdir(config.DATA_DIR)
+    task_list = sorted(os.listdir(config.DATA_DIR))
     for i, task in enumerate(task_list):
         with open(os.path.join(config.DATA_DIR, task, config.REPO_NAME), 'r') as f:
             repo_name = f.read()
