@@ -13,8 +13,8 @@ REST_API_HEADER = {
     "Authorization": f"Bearer {os.getenv('AUTH_TOKEN')}",
     "X-GitHub-Api-Version": "2022-11-28"
 }
-PER_PAGE = '5'
-COMMIT_SINCE = "2017-04-28T00:00:00Z"
+PER_PAGE = '100'
+COMMIT_SINCE = "2020-04-28T00:00:00Z"
 
 # CONSTANTS
 # =========
