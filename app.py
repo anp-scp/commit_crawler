@@ -5,9 +5,12 @@ import csv
 import utils
 import typer
 import config
+import pandas as pd
 from classes import Commit
 from rich.table import Table
+from tabulate import tabulate
 from rich.console import Console
+from typing_extensions import Annotated
 app = typer.Typer()
 console = Console()
 
@@ -16,6 +19,83 @@ console = Console()
 def remove(task_name: str):
     """To delete a task"""
     utils.clean(task_name)
+
+@app.command()
+def analyze(
+    task_name: Annotated[str, typer.Option(help="Task name to analyze")],
+    topk: Annotated[int, typer.Option(help="Get to k max committers (Likely bots)") ] = 5,  
+    bots: Annotated[str, typer.Option(help="Comma separated email of bots")] = "", 
+    percent: Annotated[bool, typer.Option(help="Want value as percent?")] = False
+):
+    """To analyze the commits counts of a task"""
+    # Parse bots
+    if bots == "":
+        console.print("WARNING: No bots provided. Will not exclude bots", style="bold red")
+        bots = []
+    else:
+        bots = [bot.strip() for bot in bots.split(",")]
+
+    # Read the data
+    path = os.path.join(config.DATA_DIR, task_name, config.RESULT_FILE)
+    try:
+        df = pd.read_csv(path)
+    except FileNotFoundError:
+        console.print("Task not found", style="bold red")
+        return
+    df['COMMIT_DATE'] = pd.to_datetime(df['COMMIT_DATE'], format='%Y-%m-%dT%H:%M:%SZ')
+    excludingBotsAndWebs = df[(df['COMMITTER'] != 'noreply@github.com') & (~df['COMMITTER'].isin(bots))]
+
+    ## Some related info
+    console.print(f"Total commits: {len(df)}\n")
+    console.print("[u] Top committers (Likely bots):[/u]\n")
+    print(df['COMMITTER'].value_counts().head(topk), end="\n\n")
+
+    ## Proportions of verified commits
+    console.print("[u]Proportion of verified commits:[/u]\n")
+    data = {
+        "Overall": [df['STATUS'].value_counts().to_dict().get(True,0), df['STATUS'].value_counts().to_dict().get(False,0)],
+        "Excluding bots and GH web": [excludingBotsAndWebs['STATUS'].value_counts().to_dict().get(True,0), excludingBotsAndWebs['STATUS'].value_counts().to_dict().get(False,0)]
+    }
+    data = pd.DataFrame(data, index=["Verified", "Unverified"])
+    if percent:
+        data = data.div(data.sum(axis=0), axis=1) * 100
+    print(tabulate(data, headers=data.columns, tablefmt="pretty"))
+
+    ## Proportions of specific reasons
+    console.print("\n[u]Proportion of specific reasons for unverified commits:[/u]\n")
+
+    data = pd.DataFrame(index=df['REASON'].unique().tolist())
+    data["Overall"] = 0
+    data["Excluding bots and GH web"] = 0
+    temp = df['REASON'].value_counts()
+    temp.name = "Overall"
+    data.update(temp)
+
+    temp = excludingBotsAndWebs['REASON'].value_counts()
+    temp.name = "Excluding bots and GH web"
+    data.update(temp)
+    if percent:
+        data = data.div(data.sum(axis=0), axis=1) * 100
+    print(tabulate(data, headers=data.columns, tablefmt="pretty"))
+
+    ## Yearwise distribution of valid commits excluding bots and GH web
+    console.print("\n[u]Yearwise distribution of valid commits excluding bots and GH web:[/u]\n")
+    
+    data = pd.DataFrame(index=["20-21","21-22","22-23","23-24"], data={
+        "Verified": [
+            excludingBotsAndWebs[(excludingBotsAndWebs['COMMIT_DATE'] < '2021-04-28')]['REASON'].value_counts().to_dict().get("valid", 0),
+            excludingBotsAndWebs[(excludingBotsAndWebs['COMMIT_DATE'] >= '2021-04-28') & (excludingBotsAndWebs['COMMIT_DATE'] < '2022-04-28')]['REASON'].value_counts().to_dict().get("valid", 0),
+            excludingBotsAndWebs[(excludingBotsAndWebs['COMMIT_DATE'] >= '2022-04-28') & (excludingBotsAndWebs['COMMIT_DATE'] < '2023-04-28')]['REASON'].value_counts().to_dict().get("valid", 0),
+            excludingBotsAndWebs[(excludingBotsAndWebs['COMMIT_DATE'] >= '2023-04-28')]['REASON'].value_counts().to_dict().get("valid", 0)
+        ],
+        "Total": [
+            excludingBotsAndWebs[(excludingBotsAndWebs['COMMIT_DATE'] < '2021-04-28')].shape[0],
+            excludingBotsAndWebs[(excludingBotsAndWebs['COMMIT_DATE'] >= '2021-04-28') & (excludingBotsAndWebs['COMMIT_DATE'] < '2022-04-28')].shape[0],
+            excludingBotsAndWebs[(excludingBotsAndWebs['COMMIT_DATE'] >= '2022-04-28') & (excludingBotsAndWebs['COMMIT_DATE'] < '2023-04-28')].shape[0],
+            excludingBotsAndWebs[(excludingBotsAndWebs['COMMIT_DATE'] >= '2023-04-28')].shape[0]
+        ]
+    })
+    print(tabulate(data, headers=data.columns, tablefmt="pretty"))
 
 @app.command()
 def measure(task_name: str, repo_url: str):
