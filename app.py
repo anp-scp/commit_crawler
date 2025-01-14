@@ -162,7 +162,8 @@ def measure(task_name: str, repo_url: str):
                 if commit.sha == end:
                     # Skip the last processed commit if resuming
                     continue
-                commit = utils.check_verification_status(commit)
+                # commit = utils.check_verification_status(commit)
+                # asssumed commits via GH web is valid 
                 end = commit.sha
                 data.append([
                     commit.sha, commit.details.committer.date, commit.details.author.email,
