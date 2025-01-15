@@ -97,6 +97,13 @@ def analyze(
     })
     print(tabulate(data, headers=data.columns, tablefmt="pretty"))
 
+    ## Unique committers
+    console.print("\n[u]Unique committers excluding bots and GH web:[/u]\n")
+    temp = excludingBotsAndWebs[["COMMITTER", "REASON"]]
+    temp = temp.groupby(['COMMITTER', 'REASON']).size().reset_index(name='counts')
+    print(f"Total unique committers: {temp['COMMITTER'].unique().shape}")
+    print(f"Total unique committers with valid commits: {temp[temp['REASON'] == 'valid']['COMMITTER'].unique().shape}")
+
 @app.command()
 def measure(task_name: str, repo_url: str):
     """To fetch and process the commits from given repository (main branch).
