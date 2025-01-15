@@ -88,7 +88,7 @@ The data will be stored at <task_name>/<results.csv>
 ╰───────────────────────────────────────────────────────────────────────────────────────────────────────────╯
 ```
 
-Running the above command will give analysis without excluding blots. Check the tok contributors to get
+Running the above command will give analysis without excluding blots. Check the topk contributors to get
 likely bots and use it in the --bots option.
 
 For example:
@@ -143,14 +143,14 @@ Yearwise distribution of valid commits excluding bots and GH web:
 
 1. Why automated bot detection not possible???
 
-    GitHub API provides account type attribute with values `Bot` and `User`. Bit is not used correclty by the users.
-    For example, pytorchmergebot is a bot but it is not marked as a bot. So, using API does not seem to be reliable way
+    GitHub REST API provides account type attribute with values `Bot` and `User` for an account. But is not used correclty by the users.
+    For example, `pytorchmergebot` is a `Bot` but it is marked as a `User` in the REST API. So, using API does not seem to be reliable way
     to detect bots
 
 2. What about unlabeled commits?
 
-    GitHub API marks the unlabeled commits as `Unverified`. Now, if the user has enabled the Vigilant mode than `Unverified` badge
-    will be shown in GH Web. But, if the user has not enabled the Vigilant mode than there will be no badge in the web UI.
+    GitHub REST API marks the unlabeled commits as `Unverified`. Now, if the user has enabled the Vigilant mode than `Unverified` badge
+    will be shown in GitHub Web. But, if the user has not enabled the Vigilant mode than there will be no badge in the web UI.
 
-    This is not possible to detect via API and Selenium based crawler would be needed to detect the use of Vigilant mode.
+    However, this is not possible to detect via REST API and Selenium based crawler would be needed to detect the use of Vigilant mode.
     This is possible to implement but goes against the GitHub's robots.txt policy.
