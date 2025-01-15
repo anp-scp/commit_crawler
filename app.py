@@ -105,7 +105,7 @@ def analyze(
     print(f"Total unique committers with valid commits: {temp[temp['REASON'] == 'valid']['COMMITTER'].unique().shape}")
 
 @app.command()
-def measure(task_name: str, repo_url: str):
+def crawl(task_name: str, repo_url: str):
     """To fetch and process the commits from given repository (main branch).
     Task name is to differentitae between jobs
     """

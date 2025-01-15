@@ -21,7 +21,7 @@ python app.py --help
 ╭─ Commands ──────────────────────────────────────────────────────────────────────────────────────────────────────────────────╮
 │ analyze   To analyze the commits counts of a task                                                                           │
 │ list      List existing tasks                                                                                               │
-│ measure   To fetch and process the commits from given repository (main branch). Task name is to differentitae between jobs  │
+│ crawl     To fetch and process the commits from given repository (main branch). Task name is to differentitae between jobs  │
 │ remove    To delete a task                                                                                                  │
 │ rlimit    To get reamining rate limit                                                                                       │
 ╰─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
@@ -33,16 +33,16 @@ python app.py --help
 
 ### Format:
 ```bash
-python app.py measure <task_name> <repo_url>
+python app.py crawl <task_name> <repo_url>
 ```
 
 For example:
 
 ```bash
-python app.py measure aiml3 https://github.com/tensorflow/tensorflow 
+python app.py crawl aiml3 https://github.com/tensorflow/tensorflow 
 ```
 
-The data will be stored at <task_name>/<results.csv>
+The data will be stored at ./temp/<task_name>/<results.csv>
 
 
 ## List existing tasks:
