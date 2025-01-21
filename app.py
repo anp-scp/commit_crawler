@@ -46,6 +46,8 @@ def analyze(
     excludingBotsAndWebs = df[(df['COMMITTER'] != 'noreply@github.com') & (~df['COMMITTER'].isin(bots))]
 
     ## Some related info
+    with open(os.path.join(config.DATA_DIR, task_name, config.REPO_NAME), 'r') as f:
+        console.print(f"[u]Repo:[/u] {f.read().replace('_', '/')}")
     console.print(f"Total commits: {len(df)}\n")
     console.print("[u] Top committers (Likely bots):[/u]\n")
     print(df['COMMITTER'].value_counts().head(topk), end="\n\n")
