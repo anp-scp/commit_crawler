@@ -81,15 +81,15 @@ def analyze(
     print(tabulate(data, headers=data.columns, tablefmt="pretty"))
 
     ## Yearwise distribution of valid commits excluding bots and GH web
-    console.print("\n[u]Yearwise distribution of valid commits excluding bots and GH web:[/u]\n")
+    console.print("\n[u]Yearwise distribution of verified commits excluding bots and GH web:[/u]\n")
     
     data = pd.DataFrame(index=["20-21","21-22","22-23","23-24","24-25"], data={
         "Verified": [
-            excludingBotsAndWebs[(excludingBotsAndWebs['COMMIT_DATE'] < '2021-04-28')]['REASON'].value_counts().to_dict().get("valid", 0),
-            excludingBotsAndWebs[(excludingBotsAndWebs['COMMIT_DATE'] >= '2021-04-28') & (excludingBotsAndWebs['COMMIT_DATE'] < '2022-04-28')]['REASON'].value_counts().to_dict().get("valid", 0),
-            excludingBotsAndWebs[(excludingBotsAndWebs['COMMIT_DATE'] >= '2022-04-28') & (excludingBotsAndWebs['COMMIT_DATE'] < '2023-04-28')]['REASON'].value_counts().to_dict().get("valid", 0),
-            excludingBotsAndWebs[(excludingBotsAndWebs['COMMIT_DATE'] >= '2023-04-28') & (excludingBotsAndWebs['COMMIT_DATE'] < '2024-04-28')]['REASON'].value_counts().to_dict().get("valid", 0),
-            excludingBotsAndWebs[(excludingBotsAndWebs['COMMIT_DATE'] >= '2024-04-28')]['REASON'].value_counts().to_dict().get("valid", 0)
+            excludingBotsAndWebs[(excludingBotsAndWebs['COMMIT_DATE'] < '2021-04-28')]['STATUS'].value_counts().to_dict().get(True, 0),
+            excludingBotsAndWebs[(excludingBotsAndWebs['COMMIT_DATE'] >= '2021-04-28') & (excludingBotsAndWebs['COMMIT_DATE'] < '2022-04-28')]['STATUS'].value_counts().to_dict().get(True, 0),
+            excludingBotsAndWebs[(excludingBotsAndWebs['COMMIT_DATE'] >= '2022-04-28') & (excludingBotsAndWebs['COMMIT_DATE'] < '2023-04-28')]['STATUS'].value_counts().to_dict().get(True, 0),
+            excludingBotsAndWebs[(excludingBotsAndWebs['COMMIT_DATE'] >= '2023-04-28') & (excludingBotsAndWebs['COMMIT_DATE'] < '2024-04-28')]['STATUS'].value_counts().to_dict().get(True, 0),
+            excludingBotsAndWebs[(excludingBotsAndWebs['COMMIT_DATE'] >= '2024-04-28')]['STATUS'].value_counts().to_dict().get(True, 0)
         ],
         "Total": [
             excludingBotsAndWebs[(excludingBotsAndWebs['COMMIT_DATE'] < '2021-04-28')].shape[0],
