@@ -1,3 +1,7 @@
+## Commit Crawler
+
+Code for the paper `On the Prevalence and Usage of Commit Signing on GitHub` [Accepted at International Conference on Evaluation and Assessment in Software Engineering (EASE), 2025] 
+
 ## Install Requirements
 
 ```bash
@@ -139,6 +143,12 @@ Yearwise distribution of valid commits excluding bots and GH web:
 | 23-24 |    15    |  810  |
 +-------+----------+-------+
 ```
+## Dataset
+
+
+Data collected during the study is at [./dataset](./dataset) directory. Rename the directory to `temp` to use it with the code.
+Each directory inside the directory starts with `aiml` (for AI/ML repositories), `db` (for database repositories), `sec` (for security repositories), and `webdev` (for web development repositories). And the numeric at the end is the serial number. Within each such directories, there exists `name.txt` containing the repository name and `results.csv` containing the commit data.
+
 ## FAQ
 
 1. Why automated bot detection not possible???
