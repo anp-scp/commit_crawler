@@ -153,7 +153,7 @@ Each directory inside the directory starts with `aiml` (for AI/ML repositories),
 
 Here, we put the response from GitHub regarding handling of Unverified emails. For more information, check the paper.
 
-![GitHub response](https://www.dropbox.com/scl/fi/cs4aw70mi14pldgy7nng1/github_support.png?rlkey=5q13jbz646ljd8q9ak4henvxu&e=1&st=wv1riyfj&dl=1 "GitHub response")
+![GitHub response](https://drive.google.com/uc?id=1iTBo-V4v17tGfEh6FjpapiXNMPiX3ieZ "GitHub response")
 
 ## FAQ
 
