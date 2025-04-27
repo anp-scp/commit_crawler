@@ -149,6 +149,12 @@ Yearwise distribution of valid commits excluding bots and GH web:
 Data collected during the study is at [./dataset](./dataset) directory. Rename the directory to `temp` to use it with the code.
 Each directory inside the directory starts with `aiml` (for AI/ML repositories), `db` (for database repositories), `sec` (for security repositories), and `webdev` (for web development repositories). And the numeric at the end is the serial number. Within each such directories, there exists `name.txt` containing the repository name and `results.csv` containing the commit data.
 
+## Regarding Unverified mails
+
+Here, we put the response from GitHub regarding handling of Unverified emails. For more information, check the paper.
+
+![GitHub response](https://www.dropbox.com/scl/fi/cs4aw70mi14pldgy7nng1/github_support.png?rlkey=5q13jbz646ljd8q9ak4henvxu&e=1&st=wv1riyfj&dl=1 "GitHub response")
+
 ## FAQ
 
 1. Why automated bot detection not possible???
