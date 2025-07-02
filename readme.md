@@ -2,6 +2,8 @@
 
 Code for the paper [On the Prevalence and Usage of Commit Signing on GitHub: A Longitudinal and Cross-Domain Study](https://arxiv.org/abs/2504.19215) [Accepted at International Conference on Evaluation and Assessment in Software Engineering (EASE), 2025] 
 
+Slides: [EASE 25 Slides](EASE25_PPT.pdf)
+
 ## Install Requirements
 
 ```bash
